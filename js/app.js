@@ -11,6 +11,41 @@ $(document).ready(function(){
               $('header').fadeIn("slow");	$('section').fadeIn("slow");			  
 		}, 8000);
 	});
+    
+    
+       //login
+    
+    var loginForm = $('.message');
+    loginForm.hide();
+    
+    
+    var login = $('.login');
+    
+    login.on('click', function(){
+        loginForm.fadeToggle();
+        
+        
+    });
+    
+    function isLogged(){
+        if ($(".welcome").find('a').attr('href') === 'index.php?wyloguj=tak') {
+            console.log("zalogowany");
+            login.text("Logged in");
+        }
+        else {
+            login.text("Login");
+            $('.greetings').addClass('floatingLogin');
+        }
+    }
+    
+    isLogged();
+    
+
+    
+    
+    
+    
+    
 
     
    // api key:  api_key=3Dwb5JkMsUjIueylI7NzLIGOas2Pn30LCSRsDPOl 
@@ -99,19 +134,7 @@ $(document).ready(function(){
         
     });
     
-    //login
-    
-    var login = $('.login a');
-    
-    login.on('click', function(){
-        if ($(this).find('p').text() === 'Login') {
-            $(this).find('p').text("Log out");
-        }
-        else {
-            $(this).find('p').text("Login");
-        }
-        
-    });
+ 
     
     
 });

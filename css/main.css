@@ -29,6 +29,7 @@ header {
     background-color: black;
     height: 10vh;
     width: 100%;
+    color: white;
 }
 
 .title {
@@ -42,6 +43,7 @@ header {
     font-size: 200%;
     color: white;
     margin-bottom: 10px;
+    text-decoration: none;
     
 }
 
@@ -49,14 +51,34 @@ header {
     width: 20%;
 }
 
+.floatingLogin {
+    float: right;
+    position: relative;
+    top: 70px;
+    right: 20vw;
+}
+
+.welcome, .welcome a, .message, .findForm, form {
+    width: 100%;
+    font-size: 90%;
+    background-color: black;
+    display: inline-block;
+    color: white;
+}
+
+.welcome {
+    width: 48%;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    color: white;
+}
 .login {
     width: 10%;
 }
 
-p {
-    padding-top:  15px;
-    padding-right: 2vw;
-}
 
 header div {
     display: inline-block;
@@ -118,6 +140,19 @@ button {
 
 
 @media (max-width: 500px){
+    .welcome, .login {
+        padding-left: 20vw;
+        font-size: 200%;
+        width: 100%;
+    }
+    .floatingLogin, .findForm {
+        width: auto;
+        float: left;
+        position: relative;
+        top: 40px;
+        left: 20vw;
+        font-size: 20px;
+    }
     img{
         height: auto;
         width: 98vw;
