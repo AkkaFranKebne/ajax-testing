@@ -1,4 +1,5 @@
 <?php
+//sesja
 session_start();
 $_SESSION['logged'];
 $_SESSION['userName'];
@@ -7,6 +8,7 @@ $_SESSION['userName'];
 if(empty($_SESSION["logged"]))$_SESSION["logged"]=0;
 if(empty($_SESSION["userName"]))$_SESSION["userName"]="";
 
+//baza sql
 $user = 'root';
 $pass ='';
 $db = 'nasa_logins'; 
@@ -14,12 +16,22 @@ $db = 'nasa_logins';
 $conn = new mysqli('localhost', $user, $pass, $db) or die("Unable to connect".$conn->connect_error);
 //echo "Connected to the database <br>";
 
-
+//funkcja wyswietlajaca formularz
 function ShowLogin($komunikat=""){
 	echo "$komunikat<br><br>";
 	echo "<form action='index.php' method=post>";
-	echo "Login: <input type='text' name='login'><br>";
-	echo "Password: <input type='password' name='haslo'><br><br>";
+	echo "Login: <input type='text' name='login'"; 
+    //autouzupelnianie imienia po cookie
+    if(isset($_COOKIE['rememberLogin'])) {
+        echo "value='{$_COOKIE['rememberLogin']}'><br>";
+            }
+    else {
+        echo "value='blabla'><br>";
+    }
+    
+
+	echo "Password: <input type='password' name='haslo'><br>";
+    echo "<input type='checkbox' name ='remember' id = 'remember'> Remember me<br>";
 	echo "<input type='submit' value='Log in'>";
 	echo "</form>";
 	echo "<br><br><p class='findForm'>Register <a href='register.php'> here</a></p>";
@@ -45,7 +57,7 @@ function ShowLogin($komunikat=""){
         
         
     <?php
-        
+ //komunikat po wylogowaniu   = skonczeniu sesji    
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if(isset($_GET["wyloguj"])===true){
         $_SESSION["logged"]=0;
@@ -53,14 +65,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     };
 }
 
-    
+//zalogowanie oparte na sesji    
 if($_SESSION["logged"] ==0){
+    //jesli uzytkownik loguje sie bedac na stronie
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      //jesli uzytkownik podal login i haslo
 	if(!empty($_POST["login"]) && !empty($_POST["haslo"])){
-        $login = htmlspecialchars($_POST["login"]);
-        $sql = "select * from nasa_logins.users where user_login = '".htmlspecialchars($_POST["login"])."' AND user_haslo = '".htmlspecialchars($_POST["haslo"])."'";
+        $login = mysqli_real_escape_string($conn, $_POST["login"]);
+        $pass = mysqli_real_escape_string($conn, $_POST["haslo"]);
+        $salted = "98".$pass."iucv";
+        $hashed = hash('sha512',$salted);
+        
+        $sql = "select * from nasa_logins.users where user_login = '$login' AND user_haslo = '$hashed'";
+        
         $result = $conn->query($sql);
+        //jesli login i haslo sa w bazie
 		if($result->num_rows  > 0){
+            //sprawdzenie, czy zaznaczyl zapamietaj mnie, ustawienie miesiecznego cookie
+            if (!empty($_POST['remember'])){
+                setcookie("rememberLogin", $login, time()+2592000);
+            }
+            //wyswietlenie komunikatu
             while($row = $result->fetch_assoc()) {
                 echo "<p class='welcome' >Hello ". $row["user_login"]. "! </p>"  ;
                 echo "<p class='welcome'><a href='index.php?wyloguj=tak'>Log out</a></p>";
@@ -71,13 +96,20 @@ if($_SESSION["logged"] ==0){
 			}
 		else {
 		    echo ShowLogin("No match!");
+             echo $login;
+            echo '<br>';
+            echo $pass;
+            echo '<br>';
+            echo $salted;
+            echo '<br>';
+            echo $hashed;
 		  }    
 		}
 	else ShowLogin();
   }
  else ShowLogin();   
 }
-        
+ //jesli uzytkownik jest juz zalogowany wchodzac na strone       
 else if ($_SESSION["logged"] ==1) {
 
 echo "<p class='welcome' >Hello ". $_SESSION["userName"]. "!</p>";

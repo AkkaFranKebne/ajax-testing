@@ -16,8 +16,8 @@ polecenie
 
 CREATE TABLE `nasa_logins`.`users` 
 ( `user_id` INT NOT NULL  NULL AUTO_INCREMENT ,
-`user_login` VARCHAR( 30 ),
-`user_haslo` VARCHAR( 30 ),
+`user_login` VARCHAR( 256 ),
+`user_haslo` VARCHAR( 256 ),
 PRIMARY KEY ( `user_id` ) 
 ) ENGINE = InnoDB;
 
@@ -80,16 +80,27 @@ function ShowForm($komunikat=""){	//funkcja wyświetlająca formularz rejestracy
     if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         
         if(strlen(trim($_POST["login"])) >0 && strlen(trim($_POST["haslo"])) >0 ) {
-            $sql = "SELECT * FROM nasa_logins.users WHERE user_login ='".htmlspecialchars($_POST["login"])."'";
+            $login = mysqli_real_escape_string($conn, $_POST["login"]);
+            
+            $sql = "SELECT * FROM nasa_logins.users WHERE user_login ='".$login."'";
             $result = $conn->query($sql);
             
             if ($result->num_rows  < 1) {
-                $sql = "INSERT INTO nasa_logins.users (user_login, user_haslo)
-                VALUES ('".htmlspecialchars($_POST["login"])."', 
-                '".htmlspecialchars($_POST["haslo"])."')";
-
+                $pass = mysqli_real_escape_string($conn, $_POST["haslo"]);
+                $salted = "98".$pass."iucv";
+                $hashed = hash('sha512',$salted);
+                
+                $sql = "INSERT INTO nasa_logins.users (user_login, user_haslo) VALUES ('$login', '$hashed')";
+                
                 if ($conn->query($sql) === TRUE) {
                     echo "Rejestracja przebiegła pomyślnie. Możesz teraz przejść do <a href='index.php'>strony głównej</a> i się zalogować.";
+            echo $login;
+            echo '<br>';
+            echo $pass;
+            echo '<br>';
+            echo $salted;
+            echo '<br>';
+            echo $hashed;
                 } else {
                     echo "Error: " . $sql . "<br>" . $conn->error;
                 }
