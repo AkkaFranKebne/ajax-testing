@@ -96,6 +96,7 @@ if($_SESSION["logged"] ==0){
 			}
 		else {
 		    echo ShowLogin("No match!");
+            /*
              echo $login;
             echo '<br>';
             echo $pass;
@@ -103,6 +104,7 @@ if($_SESSION["logged"] ==0){
             echo $salted;
             echo '<br>';
             echo $hashed;
+            */
 		  }    
 		}
 	else ShowLogin();

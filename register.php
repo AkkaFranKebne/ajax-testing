@@ -94,6 +94,7 @@ function ShowForm($komunikat=""){	//funkcja wyświetlająca formularz rejestracy
                 
                 if ($conn->query($sql) === TRUE) {
                     echo "Rejestracja przebiegła pomyślnie. Możesz teraz przejść do <a href='index.php'>strony głównej</a> i się zalogować.";
+            /*
             echo $login;
             echo '<br>';
             echo $pass;
@@ -101,6 +102,7 @@ function ShowForm($komunikat=""){	//funkcja wyświetlająca formularz rejestracy
             echo $salted;
             echo '<br>';
             echo $hashed;
+            */
                 } else {
                     echo "Error: " . $sql . "<br>" . $conn->error;
                 }
