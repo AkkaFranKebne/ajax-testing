@@ -15,7 +15,7 @@ $(document).ready(function(){
     
        //login
     
-    var loginForm = $('.message');
+    var loginForm = $('.greetings');
     loginForm.hide();
     
     

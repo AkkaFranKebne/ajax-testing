@@ -26,7 +26,7 @@ function ShowLogin($komunikat=""){
         echo "value='{$_COOKIE['rememberLogin']}'><br>";
             }
     else {
-        echo "value='blabla'><br>";
+        echo "value=''><br>";
     }
     
 

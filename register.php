@@ -7,7 +7,7 @@ $pass ='';
 $db = 'nasa_logins'; //zalozona w http://localhost/phpmyadmin/server_databases.php?db=
 
 $conn = new mysqli('localhost', $user, $pass, $db) or die("Unable to connect".$conn->connect_error);
-echo "Connected to the database <br>";
+//echo "Connected to the database <br>";
     
 
 /*
@@ -70,10 +70,19 @@ function ShowForm($komunikat=""){	//funkcja wyświetlająca formularz rejestracy
 ?>
 <!DOCTYPE html>
 <html>
+<html lang="en">
 <head>
-	<title>Formularz rejestracyjny</title>
+    <meta charset="UTF-8">
+    <title>NASA API Challenge - register</title>
+    <link rel="stylesheet" href="css/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
-<body>
+<body id ="register_form">
+    <header>
+        <div class="title"><a href="subpage.php"><h1>NASA API Challenge</h1></a></div>
+    </header>
+    <div class = 'greetings'>
+    <div class='message'>
     
 <?php
    
@@ -125,39 +134,8 @@ function ShowForm($komunikat=""){	//funkcja wyświetlająca formularz rejestracy
     };
    
 ?>
-    
-<?php
-/*
-if($_SERVER['REQUEST_METHOD'] === 'POST'){	
- if (!empty($_POST["login"]) && !empty($_POST["haslo"])) {
-     $sqlExistingUser = "SELECT * FROM nasa_logins.users where user_login='" . htmlspecialchars($_POST["login"] . "'";
-     echo $sqlExistingUser;
-                                                                                                
-    if(!empty($_POST["login"]) && !empty($_POST["haslo"]))  {
-	    
-        if(mysql_num_rows($sqlExistingUser) >0 {
-            ShowForm("Użytkownik o podanym loginie już istnieje!!!");
-        }// sprawdzanie czy użytkownik o podanej nazwie już istnieje
-		else{
-			mysql_query("INSERT INTO nasa_logins.users (user_login, user_haslo) VALUES( '".htmlspecialchars($_POST["login"])."', '".htmlspecialchars($_POST["haslo"])."')"); // zapisywanie rekordu do bazy
-			echo "Rejestracja przebiegła pomyślnie. Możesz teraz przejść do <a href='index.php'>strony głównej</a> i się zalogować.";
-			}
-	}	
-        
-	else  {
-        ShowForm("Nie uzupełniono wszystkich pól!!!");
- }
-}
-else 
-{
-    ShowForm()
-};
-    
-    
-    
-$conn->close(); //zamykanie połączenia z bazą
-*/
-?>
+    </div>
+</div>
 
     
 </body>

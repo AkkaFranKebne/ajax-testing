@@ -8,5 +8,5 @@ session_start();
 </head>
     <body>
 <?php
-if($_SESSION["zalogowany"]==0){echo "nie masz dostępu do tej części witryny. <a href='index.php'>Zaloguj się</a></body></html>;"; exit();}
+if($_SESSION["logged"]==0){echo "<h1>nie masz dostępu do tej części witryny.</h1><br> <a href='index.php'>Zaloguj się</a></body></html>;"; exit();}
 ?>
